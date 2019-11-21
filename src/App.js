@@ -9,9 +9,12 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button>Switch Name</button>
         <Person name="Alexandre" age="27"/>
-        <Person name="Cancer" age="27"/>
+        <Person name="Cancer" age="27">My Hobbies: Racing</Person>
         <Person name="Ranna" age="23"/>
+        
       </div>
     );
     
