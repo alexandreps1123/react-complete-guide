@@ -9,13 +9,17 @@ import React from 'react';
     <Person>"Elemento que props.children ira mostrar"</Person>
 */
 
-const Person = (props) => {
+
+//Stateless component
+
+const person = (props) => {
     return  (
     <div>
-        <p>I'm {props.name} and I am {props.age} years old!</p>
-        <p>{props.children}</p>      
+        <p onClick={props.click}>I'm {props.name} and I am {props.age} years old!</p>
+        <p>{props.children}</p>
+        <input type="text" onChange={props.changed} value={props.name} />
     </div>
     )
 };
 
-export default Person;
+export default person;
