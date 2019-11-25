@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import UserOutput from './UserOutput/UserOutput'
-import UserInput from './UserInput/UserInput'
+import person from './Person/Person';
 
 
 class App extends Component {
@@ -13,7 +12,8 @@ class App extends Component {
       { name: 'Cancer', age: 27},
       { name: 'Kenny', age: 77}
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   }
 
   switchNameHandler = (newName) => {
@@ -38,6 +38,11 @@ class App extends Component {
     } )
   }
 
+  togglePersonsHandler = () =>  {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
   //  Render eh um metodo
   render() {
     /*
@@ -48,6 +53,7 @@ class App extends Component {
       Esse tipo de estilizacao em javascript eh recomendado apenas no caso em que
       se queira uma mudanca em um unico elemento
     */
+
     const style = {
       backgroundColor: 'white',
       font: 'inherit',
@@ -55,26 +61,40 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     };
+
+    // esse modo eh mais elegante para se trabalhar
+    // ao inver de colocar o condicional dentro do return
+    // como havia sido mostrado no exemplo anterior
+    // desse modo, mantem o return mais organizado
+
+    let persons = null;
+
+    if ( this.state.showPersons)  {
+      persons = (
+        <div>
+          <Person 
+            name={this.state.persons[0].name} 
+            age={this.state.persons[0].age}/>
+          <Person 
+            name={this.state.persons[1].name} 
+            age={this.state.persons[1].age} 
+            click={this.switchNameHandler.bind(this, 'Alex!')}
+            changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
+          <Person 
+            name={this.state.persons[2].name} 
+            age={this.state.persons[2].age}/>
+        </div>
+      );
+    }
     
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <p>This is really working!</p>
         <button 
-        style={style}
-        onClick={() => this.switchNameHandler('Alexandre!!')}>Switch Name</button>
-
-        <Person 
-          name={this.state.persons[0].name} 
-          age={this.state.persons[0].age}/>
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age} 
-          click={this.switchNameHandler.bind(this, 'Alex!')}
-          changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age}/>
+          style={style}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
       </div>
     );
     
