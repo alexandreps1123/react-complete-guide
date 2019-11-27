@@ -1,31 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import person from './Person/Person';
 
 
 class App extends Component {
   // atributos da classe
   state = {
     persons: [
-      { name: 'Alexandre', age: 27},
-      { name: 'Cancer', age: 27},
-      { name: 'Kenny', age: 77}
+      { id: 'asd', name: 'Alexandre', age: 27},
+      { id: 'asdf', name: 'Cancer', age: 27},
+      { id: 'asdgas', name: 'Kenny', age: 77}
     ],
     otherState: 'some other value',
     showPersons: false
-  }
-
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    // NAO FACA ISSO: this.state.persons[0].name = 'Caraca';
-    this.setState({
-      persons: [
-        { name: newName, age: 27},
-        { name: 'Cancer', age: 27},
-        { name: 'Kenna', age: 70}
-      ]
-    } )
   }
 
   nameChangedHandler = (event) => {
@@ -36,6 +23,13 @@ class App extends Component {
         { name: 'Kenna', age: 70}
       ]
     } )
+  }
+
+  deletePersonHandler = (personIndex) => {
+    //const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
   togglePersonsHandler = () =>  {
@@ -62,27 +56,25 @@ class App extends Component {
       cursor: 'pointer'
     };
 
-    // esse modo eh mais elegante para se trabalhar
-    // ao inver de colocar o condicional dentro do return
-    // como havia sido mostrado no exemplo anterior
-    // desse modo, mantem o return mais organizado
+    /*
+      esse modo eh mais elegante para se trabalhar
+      ao inves de colocar o condicional dentro do return
+      como havia sido mostrado no exemplo anterior
+      desse modo, mantem o return mais organizado
+    */
 
     let persons = null;
 
     if ( this.state.showPersons)  {
       persons = (
         <div>
-          <Person 
-            name={this.state.persons[0].name} 
-            age={this.state.persons[0].age}/>
-          <Person 
-            name={this.state.persons[1].name} 
-            age={this.state.persons[1].age} 
-            click={this.switchNameHandler.bind(this, 'Alex!')}
-            changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-          <Person 
-            name={this.state.persons[2].name} 
-            age={this.state.persons[2].age}/>
+          { this.state.persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonHandler(index)}
+              name={person.name} 
+              age={person.age}
+              key={person.id} />
+          })}
         </div>
       );
     }
